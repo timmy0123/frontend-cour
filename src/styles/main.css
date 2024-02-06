@@ -1,0 +1,20 @@
+/* styles.css */
+
+.slidebar {
+  position: relative;
+  background-color: rgba(30, 29, 29, 0.7);
+  border-radius: 1px;
+  padding-left: 0;
+}
+
+.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.divider {
+  background-color: white;
+}
