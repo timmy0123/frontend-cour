@@ -18,3 +18,8 @@
 .divider {
   background-color: white;
 }
+
+.imgbox {
+  width: 100%;
+  height: 400px;
+}

@@ -5,7 +5,7 @@ import { MainContent } from "@/context/main";
 
 const Home = () => {
   const { data: session } = useSession();
-
+  require("dotenv").config();
   return (
     <div>
       {session ? (

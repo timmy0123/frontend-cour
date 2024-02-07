@@ -7,6 +7,7 @@ import theme from "@/styles/font";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ImageUpload from "./img";
 
 interface mainType {
   session: Session;
@@ -96,7 +97,7 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
           </Stack>
         </Box>
         <Box width="100%" height="100%">
-          <a>aaa</a>
+          <ImageUpload />
         </Box>
       </Stack>
     </ThemeProvider>

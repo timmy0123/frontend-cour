@@ -3,8 +3,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 require("dotenv").config();
-const backendUrl = process.env.BACKEND_URL;
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 export default NextAuth({
+  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -25,7 +26,6 @@ export default NextAuth({
           }
         );
         const user = await res.json();
-
         // If no error and we have user data, return it
         if (res.ok && user) {
           return user;
@@ -35,11 +35,8 @@ export default NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken;
-      return session;
-    },
+  session: {
+    strategy: "jwt", // 使用 JSON Web Token（JWT）於 session
+    maxAge: 30 * 24 * 60 * 60, // session 的最大有效期（以秒為單位）
   },
 });
