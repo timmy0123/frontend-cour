@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import * as _ from "lodash";
 import { Box } from "@mui/material";
 
+require("dotenv").config();
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 interface dropzoneType {
   children?: any;
   ProjectId?: string;
@@ -16,10 +18,10 @@ const baseStyle = {
   flexDirection: "column" as const,
   alignItems: "center",
   padding: "20px",
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: "#eeeeee",
-  borderStyle: "dashed",
+  //borderWidth: 2,
+  //borderRadius: 2,
+  //borderColor: "#eeeeee",
+  //borderStyle: "dashed",
   backgroundColor: "#fafafa",
   color: "#bdbdbd",
   outline: "none",
@@ -31,11 +33,11 @@ const focusedStyle = {
 };
 
 const acceptStyle = {
-  borderColor: "#00e676",
+  backgroundColor: "rgb(207, 235, 177)",
 };
 
 const rejectStyle = {
-  borderColor: "#ff1744",
+  backgroundColor: "rgb(246, 190, 190)",
 };
 
 export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
@@ -47,7 +49,7 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
     isDragReject,
     acceptedFiles,
   } = useDropzone({
-    accept: { "application/octet-stream": [".inp"] },
+    accept: { "image/jpeg": [], "image/png": [] },
     noClick: true,
   });
 
@@ -55,20 +57,23 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
     if (_.isEmpty(acceptedFiles)) {
       console.log();
     } else {
-      acceptedFiles.forEach((file: any) => {
-        const reader = new FileReader();
-
-        reader.readAsText(file);
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
-        reader.onload = () => {
-          const dataUri = reader.result as string;
-
-          // const binaryStr = reader.result;
-          // console.log(binaryStr);
-        };
-        // reader.readAsArrayBuffer(file);
-      });
+      (async () => {
+        for (const file of acceptedFiles) {
+          console.log(file);
+          const formData = new FormData();
+          formData.append("image", file);
+          try {
+            const response = await fetch(`${backendUrl}/UploadImg`, {
+              method: "POST",
+              body: formData,
+            });
+            // Handle response from the server
+            console.log("Response:", response);
+          } catch (error) {
+            console.error("Error:", file.name);
+          }
+        }
+      })();
     }
   }, [acceptedFiles]);
 
@@ -89,8 +94,11 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
   ));
 
   return (
-    <Box className="container" height="100%">
-      <Box {...getRootProps({ style })}>
+    <Box
+      className="container"
+      sx={{ overflowY: "scroll", height: "100%", width: "100%" }}
+    >
+      <Box {...getRootProps({ style })} height="100%">
         <input {...getInputProps()} />
         {children}
       </Box>
@@ -99,92 +107,3 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
 };
 
 export default StyledDropzone;
-
-export const FileDropzone: React.FC<dropzoneType> = ({
-  children,
-  ProjectId,
-  dropUpload,
-  setdropUpload,
-}) => {
-  const [content, setcontent] = React.useState<string>();
-
-  const maxsize = 1048576 * 1;
-
-  const {
-    getRootProps,
-    getInputProps,
-    isFocused,
-    isDragAccept,
-    isDragReject,
-    acceptedFiles,
-  } = useDropzone({
-    noClick: true,
-  });
-
-  useEffect(() => {
-    if (_.isEmpty(acceptedFiles)) {
-      setcontent(undefined);
-    } else {
-      acceptedFiles.forEach((file: any) => {
-        const reader = new FileReader();
-
-        reader.readAsText(file);
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
-        reader.onload = () => {
-          const dataUri = reader.result as string;
-          setcontent(dataUri);
-          // const binaryStr = reader.result;
-          // console.log(binaryStr);
-        };
-        // reader.readAsArrayBuffer(file);
-      });
-    }
-  }, [acceptedFiles]);
-
-  const style = React.useMemo(
-    () => ({
-      ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {}),
-    }),
-    [isFocused, isDragAccept, isDragReject]
-  );
-
-  const files = acceptedFiles.map((file: FileWithPath) => (
-    <li key={file.path}>
-      uploaded {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  return (
-    <Box className="container" height="100%">
-      <Box {...getRootProps({ style })}>
-        <input {...getInputProps()} />
-        {children}
-      </Box>
-    </Box>
-  );
-};
-
-//<div className="container">
-//<div {...getRootProps({ style })}>
-//    <input {...getInputProps()} />
-//    {children}
-//</div>
-//<aside>
-//    <h4>Files</h4>
-//    <ul>{files}</ul>
-//</aside>
-//</div>
-
-//const Page: NextPageWithApollo = () => (
-//  <StyledDropzone>
-//    <div>
-//      <a> drop</a>
-//    </div>
-//  </StyledDropzone>
-//);
-//
-//export default Page;

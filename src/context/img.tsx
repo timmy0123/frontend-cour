@@ -3,6 +3,7 @@ import { Grid, Box, Stack, Button, Checkbox } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { getImg } from "../components/components-getImg/ImgComponent";
 import { Imageurl } from "../interface/interface";
+import StyledDropzone from "../components/dropZone";
 
 require("dotenv").config();
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -81,70 +82,68 @@ const imgUpload: React.FC = () => {
   })();
 
   return (
-    <Stack width="100%" height="100%" spacing={2} marginTop={5}>
-      <Box paddingLeft={2} paddingRight={2}>
+    <Stack width="100%" height="100vh" spacing={0} marginTop={5}>
+      <Box paddingLeft={2} paddingRight={2} height="5vh">
         <a>ff</a>
       </Box>
       <Divider style={{ border: "1px solid gray" }} />
-      <Box
-        sx={{ overflowY: "scroll", height: "100%", width: "100%" }}
-        paddingLeft={2}
-        paddingRight={2}
-      >
-        <Grid container spacing={2}>
-          {!loading ? (
-            imgurl ? (
-              imgurl.map((url: Imageurl, index: number) => (
-                <Grid item xs={12} md={4}>
-                  <Box
-                    className="imgbox"
-                    sx={{
-                      backgroundColor: url.used ? "gray" : "none",
-                      border: 1,
-                      borderRadius: 5,
-                    }}
-                  >
-                    <Stack spacing={1}>
-                      <Grid
-                        container
-                        sx={{ display: "flex", alignItems: "center" }}
-                      >
-                        <Grid item md={1}>
-                          <Checkbox {...label} disabled />
+      <StyledDropzone>
+        <Box paddingLeft={1} paddingRight={2}>
+          <Grid container spacing={2}>
+            {!loading ? (
+              imgurl ? (
+                imgurl.map((url: Imageurl, index: number) => (
+                  <Grid item xs={12} md={4} key={index}>
+                    <Box
+                      className="imgbox"
+                      sx={{
+                        border: 1,
+                        borderRadius: 5,
+                      }}
+                    >
+                      <Stack spacing={1}>
+                        <Grid
+                          container
+                          sx={{ display: "flex", alignItems: "center" }}
+                        >
+                          <Grid item md={1}>
+                            <Checkbox {...label} />
+                          </Grid>
+                          <Grid item md={10}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-start",
+                              }}
+                            >
+                              <a>{url.url.split("/").slice(-1)[0]}</a>
+                            </Box>
+                          </Grid>
                         </Grid>
-                        <Grid item md={10}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "flex-start",
+                        <Divider />
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                          <img
+                            src={url.url}
+                            style={{
+                              height: "95%",
+                              width: "95%",
+                              maxHeight: "330px",
                             }}
-                          >
-                            <a>{url.url.split("/").slice(-1)[0]}</a>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                      <Divider />
-                      <Box
-                        sx={{ display: "flex", justifyContent: "center" }}
-                        paddingLeft={1.4}
-                      >
-                        <img
-                          src={url.url}
-                          style={{ height: "330px", width: "auto" }}
-                        />
-                      </Box>
-                    </Stack>
-                  </Box>
-                </Grid>
-              ))
+                          />
+                        </Box>
+                      </Stack>
+                    </Box>
+                  </Grid>
+                ))
+              ) : (
+                <></>
+              )
             ) : (
-              <></>
-            )
-          ) : (
-            <h3>Loading...</h3>
-          )}
-        </Grid>
-      </Box>
+              <h3>Loading...</h3>
+            )}
+          </Grid>
+        </Box>
+      </StyledDropzone>
     </Stack>
   );
 };
