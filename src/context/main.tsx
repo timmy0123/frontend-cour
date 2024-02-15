@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ImageUpload from "./img";
+import ItemUpload from "./item";
 
 interface mainType {
   session: Session;
@@ -123,7 +124,7 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
           ) : absSelect ? (
             <></>
           ) : itemSelect ? (
-            <></>
+            <ItemUpload />
           ) : (
             <></>
           )}

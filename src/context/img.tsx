@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Box, Stack, Button, Checkbox, Modal } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import { getImg } from "../components/components-getImg/ImgComponent";
+import { getImg } from "../components/components-query/QueryComponent";
 import { Imageurl } from "../interface/interface";
 import StyledDropzone from "../components/dropZone";
 
