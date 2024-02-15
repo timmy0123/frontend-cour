@@ -59,7 +59,14 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
                 },
               }}
             >
-              <Button variant="text">
+              <Button
+                variant="text"
+                onClick={() => {
+                  setimgSelect(true);
+                  setabsSelect(false);
+                  setitemSelect(false);
+                }}
+              >
                 <Typography variant="h2">輪播圖</Typography>
               </Button>
             </Box>
@@ -74,7 +81,14 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
                 },
               }}
             >
-              <Button variant="text">
+              <Button
+                variant="text"
+                onClick={() => {
+                  setimgSelect(false);
+                  setabsSelect(true);
+                  setitemSelect(false);
+                }}
+              >
                 <Typography variant="h2">簡介</Typography>
               </Button>
             </Box>
@@ -89,7 +103,14 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
                 },
               }}
             >
-              <Button variant="text">
+              <Button
+                variant="text"
+                onClick={() => {
+                  setimgSelect(false);
+                  setabsSelect(false);
+                  setitemSelect(true);
+                }}
+              >
                 <Typography variant="h2">商品</Typography>
               </Button>
             </Box>
@@ -97,7 +118,15 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
           </Stack>
         </Box>
         <Box width="100%" height="100%">
-          <ImageUpload />
+          {imgSelect ? (
+            <ImageUpload />
+          ) : absSelect ? (
+            <></>
+          ) : itemSelect ? (
+            <></>
+          ) : (
+            <></>
+          )}
         </Box>
       </Stack>
     </ThemeProvider>

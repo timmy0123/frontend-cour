@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Box, Stack, Button, Checkbox } from "@mui/material";
+import { Grid, Box, Stack, Button, Checkbox, Modal } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { getImg } from "../components/components-getImg/ImgComponent";
 import { Imageurl } from "../interface/interface";
@@ -7,6 +7,7 @@ import StyledDropzone from "../components/dropZone";
 
 require("dotenv").config();
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const FileUpload: React.FC = () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -72,8 +73,8 @@ const FileUpload: React.FC = () => {
 const imgUpload: React.FC = () => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [imgurl, setimgurl] = React.useState<Imageurl[] | undefined>(undefined);
-  const [selectused, setselectused] = React.useState<boolean>(false);
-  const [selectdelete, setselectdelete] = React.useState<boolean>(false);
+  const [selected, setselected] = React.useState<string[]>([]);
+  const [openAdd, setopenAdd] = React.useState<boolean>(false);
 
   (async () => {
     const res = await getImg();
@@ -81,10 +82,69 @@ const imgUpload: React.FC = () => {
     setLoading(false);
   })();
 
+  async function handleSelectImg() {
+    let selectName = "";
+    selected.forEach((value) => {
+      selectName += `imgs=${value}&`;
+    });
+    selectName = selectName.substring(0, selectName.length - 1);
+    await fetch(`${backendUrl}/SelectImg?${selectName}`, {
+      method: "POST",
+    });
+    setselected([]);
+  }
+
+  async function handleDeleteImg() {
+    for (let i = 0; i < selected.length; i++) {
+      let name = `filename=${selected[i]}`;
+      await fetch(`${backendUrl}/DeleteImg?${name}`, {
+        method: "Delete",
+      });
+    }
+    setselected([]);
+  }
+
   return (
     <Stack width="100%" height="100vh" spacing={0} marginTop={5}>
-      <Box paddingLeft={2} paddingRight={2} height="5vh">
-        <a>ff</a>
+      <Box
+        paddingLeft={1}
+        paddingRight={1}
+        paddingBottom={0.5}
+        height="5vh"
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
+        <Stack direction="row" spacing={0.5}>
+          <Button variant="outlined" onClick={() => handleSelectImg()}>
+            設為輪播圖
+          </Button>
+          <Button variant="outlined" onClick={() => handleDeleteImg()}>
+            刪除
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setopenAdd(true);
+            }}
+          >
+            新增
+          </Button>
+          <Modal
+            open={openAdd}
+            onClose={() => {
+              setopenAdd(false);
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box className="addImg">
+              <FileUpload />
+            </Box>
+          </Modal>
+        </Stack>
       </Box>
       <Divider style={{ border: "1px solid gray" }} />
       <StyledDropzone>
@@ -99,6 +159,7 @@ const imgUpload: React.FC = () => {
                       sx={{
                         border: 1,
                         borderRadius: 5,
+                        borderColor: url.used ? "red" : "gray",
                       }}
                     >
                       <Stack spacing={1}>
@@ -107,7 +168,19 @@ const imgUpload: React.FC = () => {
                           sx={{ display: "flex", alignItems: "center" }}
                         >
                           <Grid item md={1}>
-                            <Checkbox {...label} />
+                            <Checkbox
+                              {...label}
+                              onChange={(event) => {
+                                const name = url.url.split("/").slice(-1)[0];
+                                const index = selected.indexOf(name);
+                                if (index > -1) {
+                                  selected.splice(index, 1);
+                                } else {
+                                  selected.push(name);
+                                }
+                                setselected(selected);
+                              }}
+                            />
                           </Grid>
                           <Grid item md={10}>
                             <Box

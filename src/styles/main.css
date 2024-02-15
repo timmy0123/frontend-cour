@@ -1,5 +1,25 @@
 /* styles.css */
 
+.addImg {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 50vh;
+}
+
+.addItem {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 90vh;
+}
+
 .slidebar {
   position: relative;
   background-color: rgba(30, 29, 29, 0.7);
