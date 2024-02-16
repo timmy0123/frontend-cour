@@ -1,5 +1,14 @@
 import * as React from "react";
-import { Grid, Box, Stack, Button, Checkbox, Modal } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Stack,
+  Button,
+  Checkbox,
+  Modal,
+  TextField,
+  Input,
+} from "@mui/material";
 import { Typography, ThemeProvider } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import { ItemList } from "../interface/interface";
@@ -124,6 +133,7 @@ const ItemUpload: React.FC = () => {
                           }}
                           onClick={() => {
                             seteditedDesc(Item.itemDescription);
+                            setitemName(Item.itemName);
                             seteditedId(Item.id);
                             seteditedSubtitle(Item.subtitle);
                             seteditedTitle(Item.title);
@@ -152,6 +162,7 @@ const ItemUpload: React.FC = () => {
                           onClick={() => {
                             seteditedDesc(Item.itemDescription);
                             seteditedId(Item.id);
+                            setitemName(Item.itemName);
                             seteditedSubtitle(Item.subtitle);
                             seteditedTitle(Item.title);
                             seteditedurl(Item.pictureUrl);
@@ -196,6 +207,7 @@ const ItemUpload: React.FC = () => {
           seteditedDesc("");
           seteditedId("");
           seteditedSubtitle("");
+          setitemName("");
           seteditedTitle("");
           seteditedurl("");
           setopenAdd(false);
@@ -205,7 +217,85 @@ const ItemUpload: React.FC = () => {
         aria-describedby="modal-modal-description"
       >
         <Box className="addItem">
-          <Typography variant="body1">{editedDesc}</Typography>
+          <Box
+            marginTop={2}
+            marginLeft={2}
+            sx={{
+              overflowY: "scroll",
+              width: "100%",
+              height: "95%",
+            }}
+          >
+            <Grid container spacing={1}>
+              <Grid
+                item
+                md={1.25}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <Typography variant="h4">商品名稱</Typography>
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Required"
+                  fullWidth
+                  defaultValue={itemName}
+                />
+              </Grid>
+              <Grid md={0.75} />
+              <Grid
+                item
+                md={1.25}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <Typography variant="h4">標題</Typography>
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  fullWidth
+                  defaultValue={editedTitle}
+                />
+              </Grid>
+              <Grid md={0.75} />
+              <Grid
+                item
+                md={1.25}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <Typography variant="h4">副標題</Typography>
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  fullWidth
+                  defaultValue={editedSubtitle}
+                />
+              </Grid>
+              <Grid md={0.75} />
+              <Grid
+                item
+                md={1.25}
+                sx={{ display: "flex", alignItems: "flex-start" }}
+              >
+                <Typography variant="h4">介紹</Typography>
+              </Grid>
+              <Grid item md={10}>
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label=""
+                  multiline
+                  fullWidth
+                  rows={40}
+                  defaultValue={editedDesc}
+                />
+              </Grid>
+              <Grid md={0.75} />
+            </Grid>
+          </Box>
         </Box>
       </Modal>
     </ThemeProvider>
