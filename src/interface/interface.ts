@@ -10,3 +10,9 @@ export interface ItemList {
   subtitle: string;
   itemDescription: string;
 }
+export interface rowtype {
+  id: number;
+  city: string;
+  district: string;
+  address: string;
+}
