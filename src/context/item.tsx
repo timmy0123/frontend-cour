@@ -11,6 +11,7 @@ import {
   Select,
   SelectChangeEvent,
   MenuItem,
+  Alert,
 } from "@mui/material";
 import {
   DataGrid,
@@ -46,30 +47,26 @@ const ItemUpload: React.FC = () => {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [selectcity, setselectcity] = React.useState<string>("臺北市");
   const [selectdist, setselectdist] = React.useState<string>("中正區");
+  const [inputaddress, setinputaddress] = React.useState<string>("");
+  const [dupaddr, setdupaddr] = React.useState<boolean>(false);
   const cities = Object.keys(City);
   const [row, setrow] = React.useState<rowtype[]>([]);
   const [rowName, setrowName] = React.useState<string[]>([]);
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "id",
-      width: 20,
-      editable: false,
-    },
-    {
-      field: "City",
+      field: "city",
       headerName: "城市",
       width: 250,
       editable: false,
     },
     {
-      field: "District",
+      field: "district",
       headerName: "行政區",
       width: 250,
       editable: false,
     },
     {
-      field: "Address",
+      field: "address",
       headerName: "地址",
       width: 510,
       editable: false,
@@ -78,16 +75,16 @@ const ItemUpload: React.FC = () => {
 
   const handleSelectCityChange = (event: SelectChangeEvent) => {
     setselectcity(event.target.value as string);
+    setselectdist("");
   };
 
   const handleSelectDistrictChange = (event: SelectChangeEvent) => {
+    console.log(event.target.value);
     setselectdist(event.target.value as string);
   };
 
   const handleFileChange = (event: any) => {
-    console.log(event.target.files[0]);
     setSelectedFile(event.target.files[0]);
-    console.log(selectedFile);
   };
 
   const handleButtonClick = () => {
@@ -95,20 +92,87 @@ const ItemUpload: React.FC = () => {
     fileInputRef!.current!.click();
   };
 
+  const handleAddLoc = () => {
+    const newRow = [...row];
+    const ids = row.length;
+    let dup: boolean = false;
+    for (let i = 0; i < newRow.length; i++) {
+      if (newRow[i].address === inputaddress) dup = true;
+    }
+    if (!dup) {
+      newRow.push({
+        city: selectcity,
+        district: selectdist,
+        address: inputaddress,
+      });
+      setrow(newRow);
+    } else {
+      setdupaddr(true);
+    }
+  };
+
+  const handleDeleteLoc = () => {
+    const newRow: rowtype[] = [];
+    for (let i = 0; i < row.length; i++) {
+      if (selected.includes(row[i].address)) continue;
+      newRow.push(row[i]);
+    }
+    setrow(newRow);
+  };
+
   (async () => {
-    const res = await getItem();
-    if (res.length > 0) setitems(res);
-    setLoading(false);
+    if (loading) {
+      const res = await getItem();
+      if (res.length > 0) setitems(res);
+      setLoading(false);
+      console.log(77788);
+    }
   })();
 
-  async function handleDeleteImg() {
+  async function handleDeleteItem() {
     for (let i = 0; i < selected.length; i++) {
-      let name = `filename=${selected[i]}`;
-      await fetch(`${backendUrl}/DeleteImg?${name}`, {
+      let Imgname = `filename=${selectedFile!.name}`;
+      let ItemName = `itemName=${itemName}`;
+      await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
         method: "Delete",
       });
     }
     setselected([]);
+  }
+
+  async function handleSaveItem() {
+    if (selectedFile && row) {
+      if (openEdited) {
+        let Imgname = `filename=${selectedFile!.name}`;
+        let ItemName = `itemName=${itemName}`;
+        await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
+          method: "Delete",
+        });
+      }
+      for (let i = 0; i < selected.length; i++) {
+        const name = `itemName=${itemName}`;
+        const title = `title=${editedTitle}`;
+        const subtitle = `subtitle=${editedSubtitle}`;
+        const description = `description=${editedDesc}`;
+        const city = row.map((value) => `city=${value.city}`).join("&");
+        const district = row.map((value) => `city=${value.district}`).join("&");
+        const address = row.map((value) => `city=${value.address}`).join("&");
+        let fromData = new FormData();
+
+        fromData.append("image", selectedFile);
+        await fetch(
+          `${backendUrl}/UploadItem?${name}&${title}&${subtitle}&${subtitle}&${description}
+                     &${city}&${district}&${address}`,
+          {
+            method: "Post",
+            body: fromData,
+          }
+        );
+      }
+
+      setopenAdd(false);
+      setopenEdited(false);
+    }
   }
 
   return (
@@ -126,7 +190,7 @@ const ItemUpload: React.FC = () => {
           }}
         >
           <Stack direction="row" spacing={0.5}>
-            <Button variant="outlined" onClick={() => handleDeleteImg()}>
+            <Button variant="outlined" onClick={() => handleDeleteItem()}>
               刪除
             </Button>
             <Button
@@ -201,6 +265,16 @@ const ItemUpload: React.FC = () => {
                             seteditedSubtitle(Item.subtitle);
                             seteditedTitle(Item.title);
                             seteditedurl(Item.pictureUrl);
+                            let newRow: rowtype[] = [];
+                            console.log(Item);
+                            for (let i = 0; i < Item.city.length; i++) {
+                              newRow.push({
+                                city: Item.city[i],
+                                district: Item.district[i],
+                                address: Item.address[i],
+                              });
+                            }
+                            setrow(newRow);
                             setopenEdited(true);
                           }}
                         >
@@ -229,6 +303,15 @@ const ItemUpload: React.FC = () => {
                             seteditedSubtitle(Item.subtitle);
                             seteditedTitle(Item.title);
                             seteditedurl(Item.pictureUrl);
+                            let newRow: rowtype[] = [];
+                            for (let i = 0; i < Item.city.length; i++) {
+                              newRow.push({
+                                city: Item.city[i],
+                                district: Item.district[i],
+                                address: Item.address[i],
+                              });
+                            }
+                            setrow(newRow);
                             setopenEdited(true);
                           }}
                         >
@@ -273,6 +356,7 @@ const ItemUpload: React.FC = () => {
           setitemName("");
           seteditedTitle("");
           seteditedurl("");
+          setrow([]);
           setopenAdd(false);
           setopenEdited(false);
         }}
@@ -280,6 +364,18 @@ const ItemUpload: React.FC = () => {
         aria-describedby="modal-modal-description"
       >
         <Box className="addItem">
+          {dupaddr ? (
+            <Alert
+              severity="error"
+              onClose={() => {
+                setdupaddr(false);
+              }}
+            >
+              重複地址
+            </Alert>
+          ) : (
+            <></>
+          )}
           <Box
             marginTop={2}
             marginLeft={2}
@@ -297,7 +393,9 @@ const ItemUpload: React.FC = () => {
                   height="100%"
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Button variant="outlined">儲存</Button>
+                  <Button variant="outlined" onClick={handleSaveItem}>
+                    儲存
+                  </Button>
                 </Box>
               </Grid>
               <Grid
@@ -314,6 +412,9 @@ const ItemUpload: React.FC = () => {
                   label="Required"
                   fullWidth
                   defaultValue={itemName}
+                  onChange={(event) => {
+                    setitemName(event.target.value as string);
+                  }}
                 />
               </Grid>
               <Grid md={0.75} />
@@ -330,6 +431,9 @@ const ItemUpload: React.FC = () => {
                   id="outlined-required"
                   fullWidth
                   defaultValue={editedTitle}
+                  onChange={(event) => {
+                    seteditedTitle(event.target.value as string);
+                  }}
                 />
               </Grid>
               <Grid md={0.75} />
@@ -346,6 +450,9 @@ const ItemUpload: React.FC = () => {
                   id="outlined-required"
                   fullWidth
                   defaultValue={editedSubtitle}
+                  onChange={(event) => {
+                    seteditedSubtitle(event.target.value as string);
+                  }}
                 />
               </Grid>
               <Grid md={0.75} />
@@ -363,8 +470,10 @@ const ItemUpload: React.FC = () => {
                   multiline
                   fullWidth
                   rows={40}
-                  maxRows={500}
                   defaultValue={editedDesc}
+                  onChange={(event) => {
+                    seteditedDesc(event.target.value as string);
+                  }}
                 />
               </Grid>
               <Grid md={0.75} />
@@ -421,11 +530,13 @@ const ItemUpload: React.FC = () => {
                     rows={row}
                     columns={columns}
                     checkboxSelection
+                    disableRowSelectionOnClick
+                    getRowId={(row) => row?.address}
                     pageSizeOptions={[5, 10]}
                     onRowSelectionModelChange={(newSelection) => {
                       const selecting: string[] = [];
-                      newSelection.forEach((value, index, array) => {
-                        selecting.push(rowName.at(value as number)!);
+                      newSelection.forEach((value) => {
+                        selecting.push(value as string);
                       });
                       setselected(selecting);
                     }}
@@ -467,6 +578,9 @@ const ItemUpload: React.FC = () => {
                   multiline
                   fullWidth
                   defaultValue={""}
+                  onChange={(event) => {
+                    setinputaddress(event.target.value as string);
+                  }}
                 />
               </Grid>
               <Grid md={9.75} />
@@ -476,7 +590,9 @@ const ItemUpload: React.FC = () => {
                   height="100%"
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Button variant="outlined">新增</Button>
+                  <Button variant="outlined" onClick={handleAddLoc}>
+                    新增
+                  </Button>
                 </Box>
               </Grid>
               <Grid item md={0.75}>
@@ -485,7 +601,7 @@ const ItemUpload: React.FC = () => {
                   height="100%"
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Button variant="outlined" disabled={true}>
+                  <Button variant="outlined" onClick={handleDeleteLoc}>
                     刪除
                   </Button>
                 </Box>

@@ -77,9 +77,11 @@ const imgUpload: React.FC = () => {
   const [openAdd, setopenAdd] = React.useState<boolean>(false);
 
   (async () => {
-    const res = await getImg();
-    if (res.length > 0) setimgurl(res);
-    setLoading(false);
+    if (loading) {
+      const res = await getImg();
+      if (res.length > 0) setimgurl(res);
+      setLoading(false);
+    }
   })();
 
   async function handleSelectImg() {

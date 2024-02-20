@@ -9,9 +9,11 @@ export interface ItemList {
   title: string;
   subtitle: string;
   itemDescription: string;
+  city: string[];
+  district: string[];
+  address: string[];
 }
 export interface rowtype {
-  id: number;
   city: string;
   district: string;
   address: string;
