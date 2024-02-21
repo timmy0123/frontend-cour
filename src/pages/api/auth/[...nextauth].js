@@ -22,6 +22,7 @@ export default NextAuth({
         const res = await fetch(
           `${backendUrl}/GetUser?username=${credentials.username}&password=${credentials.password}`,
           {
+            credentials: "include",
             method: "GET",
           }
         );
@@ -38,5 +39,8 @@ export default NextAuth({
   session: {
     strategy: "jwt", // 使用 JSON Web Token（JWT）於 session
     maxAge: 30 * 24 * 60 * 60, // session 的最大有效期（以秒為單位）
+    cookie: {
+      secure: true,
+    },
   },
 });

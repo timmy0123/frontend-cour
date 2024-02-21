@@ -43,12 +43,15 @@ const ItemUpload: React.FC = () => {
   const [editedSubtitle, seteditedSubtitle] = React.useState<string>("");
   const [editedDesc, seteditedDesc] = React.useState<string>("");
   const [editedId, seteditedId] = React.useState<string>("");
+  const [editedlocId, seteditedlocId] = React.useState<string[]>([]);
   const [editedurl, seteditedurl] = React.useState<string>("");
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [existFile, setexistFile] = React.useState<string>("");
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [selectcity, setselectcity] = React.useState<string>("臺北市");
   const [selectdist, setselectdist] = React.useState<string>("中正區");
   const [inputaddress, setinputaddress] = React.useState<string>("");
+  const [selectLoc, setselectLoc] = React.useState<string[]>([]);
   const [dupaddr, setdupaddr] = React.useState<boolean>(false);
   const cities = Object.keys(City);
   const [row, setrow] = React.useState<rowtype[]>([]);
@@ -115,7 +118,7 @@ const ItemUpload: React.FC = () => {
   const handleDeleteLoc = () => {
     const newRow: rowtype[] = [];
     for (let i = 0; i < row.length; i++) {
-      if (selectedItemName.includes(row[i].address)) continue;
+      if (selectLoc.includes(row[i].address)) continue;
       newRow.push(row[i]);
     }
     setrow(newRow);
@@ -147,7 +150,8 @@ const ItemUpload: React.FC = () => {
   async function handleSaveItem() {
     if (selectedFile && row) {
       if (openEdited) {
-        let Imgname = `filename=${selectedFile!.name}`;
+        console.log(existFile);
+        let Imgname = `fileName=${existFile}`;
         let ItemName = `itemName=${itemName}`;
         await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
           method: "Delete",
@@ -166,7 +170,6 @@ const ItemUpload: React.FC = () => {
       console.log(city);
 
       fromData.append("image", selectedFile);
-      console.log(77654);
       await fetch(
         `${backendUrl}/UploadItem?${name}&${title}&${subtitle}&${description}
                      &${city}&${district}&${address}`,
@@ -175,11 +178,23 @@ const ItemUpload: React.FC = () => {
           body: fromData,
         }
       );
-
-      setopenAdd(false);
-      setopenEdited(false);
-      setLoading(true);
+    } else if (!selectedFile && openEdited) {
     }
+
+    seteditedDesc("");
+    seteditedId("");
+    seteditedSubtitle("");
+    seteditedId("");
+    seteditedlocId([]);
+    setitemName("");
+    seteditedTitle("");
+    setSelectedFile(null);
+    setexistFile("");
+    seteditedurl("");
+    setrow([]);
+    setopenAdd(false);
+    setopenEdited(false);
+    setLoading(true);
   }
 
   return (
@@ -223,7 +238,7 @@ const ItemUpload: React.FC = () => {
         <Divider style={{ border: "1px solid gray" }} />
         <Box
           paddingLeft={1}
-          paddingRight={2}
+          paddingRight={10}
           paddingBottom={7}
           sx={{
             overflowY: "scroll",
@@ -254,6 +269,7 @@ const ItemUpload: React.FC = () => {
                         >
                           <Checkbox
                             {...label}
+                            id={Item.itemName}
                             onChange={(event) => {
                               const name = Item.itemName;
                               const imgName = Item.pictureUrl
@@ -286,7 +302,12 @@ const ItemUpload: React.FC = () => {
                             setitemName(Item.itemName);
                             seteditedId(Item.id);
                             seteditedSubtitle(Item.subtitle);
+                            seteditedId(Item.id);
+                            seteditedlocId(Item.locid);
                             seteditedTitle(Item.title);
+                            setexistFile(
+                              Item.pictureUrl.split("/").slice(-1)[0]
+                            );
                             seteditedurl(Item.pictureUrl);
                             let newRow: rowtype[] = [];
                             console.log(Item);
@@ -302,6 +323,7 @@ const ItemUpload: React.FC = () => {
                           }}
                         >
                           <img
+                            title={Item.pictureUrl.split("/").slice(-1)[0]}
                             src={Item.pictureUrl}
                             style={{
                               height: "95%",
@@ -324,7 +346,12 @@ const ItemUpload: React.FC = () => {
                             seteditedId(Item.id);
                             setitemName(Item.itemName);
                             seteditedSubtitle(Item.subtitle);
+                            seteditedId(Item.id);
+                            seteditedlocId(Item.locid);
                             seteditedTitle(Item.title);
+                            setexistFile(
+                              Item.pictureUrl.split("/").slice(-1)[0]
+                            );
                             seteditedurl(Item.pictureUrl);
                             let newRow: rowtype[] = [];
                             for (let i = 0; i < Item.city.length; i++) {
@@ -376,8 +403,12 @@ const ItemUpload: React.FC = () => {
           seteditedDesc("");
           seteditedId("");
           seteditedSubtitle("");
+          seteditedId("");
+          seteditedlocId([]);
           setitemName("");
           seteditedTitle("");
+          setSelectedFile(null);
+          setexistFile("");
           seteditedurl("");
           setrow([]);
           setopenAdd(false);
@@ -409,8 +440,8 @@ const ItemUpload: React.FC = () => {
             }}
           >
             <Grid container spacing={1}>
-              <Grid md={10.25} />
-              <Grid md={1} marginRight={3} marginTop={1}>
+              <Grid item md={10.25} />
+              <Grid item md={1} marginRight={3} marginTop={1}>
                 <Box
                   width="100%"
                   height="100%"
@@ -440,7 +471,7 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid md={0.75} />
+              <Grid item md={0.75} />
               <Grid
                 item
                 md={1.25}
@@ -459,7 +490,7 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid md={0.75} />
+              <Grid item md={0.75} />
               <Grid
                 item
                 md={1.25}
@@ -478,7 +509,7 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid md={0.75} />
+              <Grid item md={0.75} />
               <Grid
                 item
                 md={1.25}
@@ -499,8 +530,8 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid md={0.75} />
-              <Grid md={12} marginY={3} marginRight={3}>
+              <Grid item md={0.75} />
+              <Grid item md={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
               <Grid
@@ -534,6 +565,7 @@ const ItemUpload: React.FC = () => {
                   </Button>
 
                   <input
+                    id="img-select"
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
@@ -541,7 +573,7 @@ const ItemUpload: React.FC = () => {
                   />
                 </Box>
               </Grid>
-              <Grid md={12} marginY={3} marginRight={3}>
+              <Grid item md={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
               <Grid item md={1.25}>
@@ -555,18 +587,18 @@ const ItemUpload: React.FC = () => {
                     checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row?.address}
-                    pageSizeOptions={[5, 10]}
+                    pageSizeOptions={[5, 10, 25, 50, 100]}
                     onRowSelectionModelChange={(newSelection) => {
                       const selecting: string[] = [];
                       newSelection.forEach((value) => {
                         selecting.push(value as string);
                       });
-                      setselected(selecting);
+                      setselectLoc(selecting);
                     }}
                   />
                 </Box>
               </Grid>
-              <Grid md={0.75} />
+              <Grid item md={0.75} />
               <Grid item md={1.25} />
               <Grid item md={1.5}>
                 <Select
@@ -577,7 +609,9 @@ const ItemUpload: React.FC = () => {
                   onChange={handleSelectCityChange}
                 >
                   {cities.map((value, index) => (
-                    <MenuItem value={value}>{value}</MenuItem>
+                    <MenuItem value={value} key={index}>
+                      {value}
+                    </MenuItem>
                   ))}
                 </Select>
               </Grid>
@@ -590,14 +624,16 @@ const ItemUpload: React.FC = () => {
                   onChange={handleSelectDistrictChange}
                 >
                   {City[selectcity].map((value, index) => (
-                    <MenuItem value={value}>{value}</MenuItem>
+                    <MenuItem value={value} key={index}>
+                      {value}
+                    </MenuItem>
                   ))}
                 </Select>
               </Grid>
               <Grid item md={7}>
                 <TextField
-                  id="outlined-multiline-flexible"
-                  label=""
+                  id="address"
+                  label="address"
                   multiline
                   fullWidth
                   defaultValue={""}
@@ -606,7 +642,7 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid md={9.75} />
+              <Grid item md={9.75} />
               <Grid item md={0.75}>
                 <Box
                   width="100%"
@@ -629,8 +665,8 @@ const ItemUpload: React.FC = () => {
                   </Button>
                 </Box>
               </Grid>
-              <Grid md={0.75} />
-              <Grid md={12} marginY={2} marginRight={3}>
+              <Grid item md={0.75} />
+              <Grid item md={12} marginY={2} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
             </Grid>

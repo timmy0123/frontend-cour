@@ -51,6 +51,7 @@ const FileUpload: React.FC = () => {
     <form onSubmit={handleFormSubmit}>
       {/* Hidden file input */}
       <input
+        id="fileupload"
         type="file"
         ref={fileInputRef}
         style={{ display: "none" }}
@@ -174,6 +175,7 @@ const imgUpload: React.FC = () => {
                         >
                           <Grid item md={1}>
                             <Checkbox
+                              id={`${index}`}
                               {...label}
                               onChange={(event) => {
                                 const name = url.url.split("/").slice(-1)[0];
@@ -202,6 +204,7 @@ const imgUpload: React.FC = () => {
                         <Box sx={{ display: "flex", justifyContent: "center" }}>
                           <img
                             src={url.url}
+                            alt={url.url}
                             style={{
                               height: "95%",
                               width: "95%",

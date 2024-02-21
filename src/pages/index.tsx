@@ -2,12 +2,16 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { MainContent } from "@/context/main";
+import Head from "next/head";
 
 const Home = () => {
   const { data: session } = useSession();
   require("dotenv").config();
   return (
     <div>
+      <Head>
+        <title>CMS System</title>
+      </Head>
       {session ? (
         // Content for authenticated users
         <MainContent session={session} />

@@ -100,8 +100,10 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
       sx={{ overflowY: "scroll", height: "100%", width: "100%" }}
     >
       <Box {...getRootProps({ style })} height="100%">
-        <input {...getInputProps()} />
-        {children}
+        <label>
+          <input id="drop" {...getInputProps()} />
+          {children}
+        </label>
       </Box>
     </Box>
   );

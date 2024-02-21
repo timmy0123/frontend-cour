@@ -4,6 +4,7 @@ export interface Imageurl {
 }
 export interface ItemList {
   id: string;
+  locid: string[];
   pictureUrl: string;
   itemName: string;
   title: string;
