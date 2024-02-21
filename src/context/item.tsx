@@ -34,7 +34,8 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const ItemUpload: React.FC = () => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [items, setitems] = React.useState<ItemList[] | undefined>(undefined);
-  const [selected, setselected] = React.useState<string[]>([]);
+  const [selectedItemName, setselectedItemName] = React.useState<string[]>([]);
+  const [selectedImgName, setselectedImgName] = React.useState<string[]>([]);
   const [openAdd, setopenAdd] = React.useState<boolean>(false);
   const [openEdited, setopenEdited] = React.useState<boolean>(false);
   const [editedTitle, seteditedTitle] = React.useState<string>("");
@@ -114,7 +115,7 @@ const ItemUpload: React.FC = () => {
   const handleDeleteLoc = () => {
     const newRow: rowtype[] = [];
     for (let i = 0; i < row.length; i++) {
-      if (selected.includes(row[i].address)) continue;
+      if (selectedItemName.includes(row[i].address)) continue;
       newRow.push(row[i]);
     }
     setrow(newRow);
@@ -125,19 +126,22 @@ const ItemUpload: React.FC = () => {
       const res = await getItem();
       if (res.length > 0) setitems(res);
       setLoading(false);
-      console.log(77788);
     }
   })();
 
   async function handleDeleteItem() {
-    for (let i = 0; i < selected.length; i++) {
-      let Imgname = `filename=${selectedFile!.name}`;
-      let ItemName = `itemName=${itemName}`;
+    console.log(selectedItemName);
+    for (let i = 0; i < selectedItemName.length; i++) {
+      console.log(selectedImgName);
+      let Imgname = `fileName=${selectedImgName[i]}`;
+      let ItemName = `itemName=${selectedItemName[i]}`;
       await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
         method: "Delete",
       });
     }
-    setselected([]);
+    setselectedItemName([]);
+    setselectedImgName([]);
+    setLoading(true);
   }
 
   async function handleSaveItem() {
@@ -149,29 +153,32 @@ const ItemUpload: React.FC = () => {
           method: "Delete",
         });
       }
-      for (let i = 0; i < selected.length; i++) {
-        const name = `itemName=${itemName}`;
-        const title = `title=${editedTitle}`;
-        const subtitle = `subtitle=${editedSubtitle}`;
-        const description = `description=${editedDesc}`;
-        const city = row.map((value) => `city=${value.city}`).join("&");
-        const district = row.map((value) => `city=${value.district}`).join("&");
-        const address = row.map((value) => `city=${value.address}`).join("&");
-        let fromData = new FormData();
+      const name = `itemname=${itemName}`;
+      const title = `title=${editedTitle}`;
+      const subtitle = `subtitle=${editedSubtitle}`;
+      const description = `description=${editedDesc}`;
+      const city = row.map((value) => `city=${value.city}`).join("&");
+      const district = row
+        .map((value) => `district=${value.district}`)
+        .join("&");
+      const address = row.map((value) => `address=${value.address}`).join("&");
+      let fromData = new FormData();
+      console.log(city);
 
-        fromData.append("image", selectedFile);
-        await fetch(
-          `${backendUrl}/UploadItem?${name}&${title}&${subtitle}&${subtitle}&${description}
+      fromData.append("image", selectedFile);
+      console.log(77654);
+      await fetch(
+        `${backendUrl}/UploadItem?${name}&${title}&${subtitle}&${description}
                      &${city}&${district}&${address}`,
-          {
-            method: "Post",
-            body: fromData,
-          }
-        );
-      }
+        {
+          method: "Post",
+          body: fromData,
+        }
+      );
 
       setopenAdd(false);
       setopenEdited(false);
+      setLoading(true);
     }
   }
 
@@ -190,7 +197,7 @@ const ItemUpload: React.FC = () => {
           }}
         >
           <Stack direction="row" spacing={0.5}>
-            <Button variant="outlined" onClick={() => handleDeleteItem()}>
+            <Button variant="outlined" onClick={handleDeleteItem}>
               刪除
             </Button>
             <Button
@@ -214,7 +221,16 @@ const ItemUpload: React.FC = () => {
           </Stack>
         </Box>
         <Divider style={{ border: "1px solid gray" }} />
-        <Box paddingLeft={1} paddingRight={2}>
+        <Box
+          paddingLeft={1}
+          paddingRight={2}
+          paddingBottom={7}
+          sx={{
+            overflowY: "scroll",
+            width: "100%",
+            height: "95%",
+          }}
+        >
           <Grid container spacing={2}>
             {!loading ? (
               items ? (
@@ -240,13 +256,20 @@ const ItemUpload: React.FC = () => {
                             {...label}
                             onChange={(event) => {
                               const name = Item.itemName;
-                              const index = selected.indexOf(name);
+                              const imgName = Item.pictureUrl
+                                .split("/")
+                                .slice(-1)[0];
+                              const index = selectedItemName.indexOf(name);
+
                               if (index > -1) {
-                                selected.splice(index, 1);
+                                selectedItemName.splice(index, 1);
+                                selectedImgName.splice(index, 1);
                               } else {
-                                selected.push(name);
+                                selectedItemName.push(name);
+                                selectedImgName.push(imgName);
                               }
-                              setselected(selected);
+                              setselectedItemName(selectedItemName);
+                              setselectedImgName(selectedImgName);
                             }}
                           />
                         </Grid>
