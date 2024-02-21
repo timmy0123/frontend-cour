@@ -41,6 +41,7 @@ const FileUpload: React.FC = () => {
 
       // Handle response from the server
       console.log("Response:", response);
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -94,6 +95,7 @@ const imgUpload: React.FC = () => {
       method: "POST",
     });
     setselected([]);
+    setLoading(true);
   }
 
   async function handleDeleteImg() {
@@ -104,6 +106,7 @@ const imgUpload: React.FC = () => {
       });
     }
     setselected([]);
+    setLoading(true);
   }
 
   return (

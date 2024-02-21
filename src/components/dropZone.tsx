@@ -69,6 +69,7 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
             });
             // Handle response from the server
             console.log("Response:", response);
+            window.location.reload();
           } catch (error) {
             console.error("Error:", file.name);
           }
