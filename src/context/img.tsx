@@ -96,6 +96,7 @@ const imgUpload: React.FC = () => {
       method: "POST",
     });
     setselected([]);
+    setimgurl([]);
     setLoading(true);
   }
 
@@ -107,6 +108,7 @@ const imgUpload: React.FC = () => {
       });
     }
     setselected([]);
+    setimgurl([]);
     setLoading(true);
   }
 
@@ -154,14 +156,15 @@ const imgUpload: React.FC = () => {
       </Box>
       <Divider style={{ border: "1px solid gray" }} />
       <StyledDropzone>
-        <Box paddingLeft={1} paddingRight={2}>
-          <Grid container spacing={2}>
+        <Box paddingLeft={1} paddingRight={2} height="100%" width="100%">
+          <Grid container spacing={2} height="100%" width="100%">
             {!loading ? (
               imgurl ? (
                 imgurl.map((url: Imageurl, index: number) => (
                   <Grid item xs={12} md={4} key={index}>
                     <Box
                       className="imgbox"
+                      marginBottom={3.5}
                       sx={{
                         border: 1,
                         borderRadius: 5,

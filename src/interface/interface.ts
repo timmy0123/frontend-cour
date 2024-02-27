@@ -19,3 +19,10 @@ export interface rowtype {
   district: string;
   address: string;
 }
+export interface AbsList {
+  id: string;
+  pictureUrl: string;
+  title: string;
+  subtitle: string;
+  Description: string;
+}

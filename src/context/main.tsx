@@ -9,6 +9,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ImageUpload from "./img";
 import ItemUpload from "./item";
+import AbsUpload from "./abs";
 
 interface mainType {
   session: Session;
@@ -41,7 +42,8 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
                 </Grid>
                 <Grid item md={1}>
                   {showTool ? (
-                    <ChevronLeftIcon sx={{ fontSize: 50 }} />
+                    //<ChevronLeftIcon sx={{ fontSize: 50 }} />
+                    <></>
                   ) : (
                     <ChevronRightIcon sx={{ fontSize: 50 }} />
                   )}
@@ -122,7 +124,7 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
           {imgSelect ? (
             <ImageUpload />
           ) : absSelect ? (
-            <></>
+            <AbsUpload />
           ) : itemSelect ? (
             <ItemUpload />
           ) : (
