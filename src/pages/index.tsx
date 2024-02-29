@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div>
       <Head>
-        <title>CMS System</title>
+        <title>Yiikoo CMS</title>
       </Head>
       {session ? (
         // Content for authenticated users

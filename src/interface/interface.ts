@@ -28,3 +28,11 @@ export interface AbsList {
   subtitle: string;
   Description: string;
 }
+
+export interface Checktype {
+  onSuccess: () => void;
+}
+
+export interface Resettype {
+  onSuccess: () => void;
+}

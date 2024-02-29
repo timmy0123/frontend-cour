@@ -10,6 +10,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ImageUpload from "./img";
 import ItemUpload from "./item";
 import AbsUpload from "./abs";
+import PasswordSetting from "./password";
 
 interface mainType {
   session: Session;
@@ -19,6 +20,7 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
   const [itemSelect, setitemSelect] = React.useState<boolean>(false);
   const [imgSelect, setimgSelect] = React.useState<boolean>(true);
   const [absSelect, setabsSelect] = React.useState<boolean>(false);
+  const [passwordSelect, setpasswordSelect] = React.useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -38,7 +40,7 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
             >
               <Grid container marginLeft={1} marginTop={1}>
                 <Grid item md={10} display={showTool ? "block" : "none"}>
-                  <Typography variant="h1">Company</Typography>
+                  <Typography variant="h1">Yiikoo</Typography>
                 </Grid>
                 <Grid item md={1}>
                   {showTool ? (
@@ -112,12 +114,49 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
                   setimgSelect(false);
                   setabsSelect(false);
                   setitemSelect(true);
+                  setpasswordSelect(false);
                 }}
               >
                 <Typography variant="h2">商品</Typography>
               </Button>
             </Box>
-            <button onClick={() => signOut()}>Sign Out</button>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: showTool ? "center" : "flex-start",
+                alignItems: "flex-end",
+                backgroundColor: passwordSelect ? "gray" : "none",
+                "&:hover": {
+                  backgroundColor: "black",
+                },
+              }}
+            >
+              <Button
+                variant="text"
+                onClick={() => {
+                  setimgSelect(false);
+                  setabsSelect(false);
+                  setitemSelect(false);
+                  setpasswordSelect(true);
+                }}
+              >
+                <Typography variant="h2">更改密碼</Typography>
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: showTool ? "center" : "flex-start",
+                alignItems: "flex-end",
+                "&:hover": {
+                  backgroundColor: "black",
+                },
+              }}
+            >
+              <Button variant="text" onClick={() => signOut()}>
+                <Typography variant="h2">登出</Typography>
+              </Button>
+            </Box>
           </Stack>
         </Box>
         <Box width="100%" height="100%">
@@ -127,6 +166,8 @@ export const MainContent: React.FC<mainType> = ({ session }) => {
             <AbsUpload />
           ) : itemSelect ? (
             <ItemUpload />
+          ) : passwordSelect ? (
+            <PasswordSetting />
           ) : (
             <></>
           )}
