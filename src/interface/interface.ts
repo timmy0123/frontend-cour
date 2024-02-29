@@ -10,11 +10,13 @@ export interface ItemList {
   title: string;
   subtitle: string;
   itemDescription: string;
+  storeName: string[];
   city: string[];
   district: string[];
   address: string[];
 }
 export interface rowtype {
+  storeName: string;
   city: string;
   district: string;
   address: string;

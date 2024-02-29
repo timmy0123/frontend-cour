@@ -50,6 +50,7 @@ const ItemUpload: React.FC = () => {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [selectcity, setselectcity] = React.useState<string>("臺北市");
   const [selectdist, setselectdist] = React.useState<string>("中正區");
+  const [inputStoreName, setinputStoreName] = React.useState<string>("");
   const [inputaddress, setinputaddress] = React.useState<string>("");
   const [selectLoc, setselectLoc] = React.useState<string[]>([]);
   const [dupaddr, setdupaddr] = React.useState<boolean>(false);
@@ -57,6 +58,12 @@ const ItemUpload: React.FC = () => {
   const [row, setrow] = React.useState<rowtype[]>([]);
   const [rowName, setrowName] = React.useState<string[]>([]);
   const columns: GridColDef[] = [
+    {
+      field: "storeName",
+      headerName: "商店名稱",
+      width: 350,
+      editable: false,
+    },
     {
       field: "city",
       headerName: "城市",
@@ -105,6 +112,7 @@ const ItemUpload: React.FC = () => {
     }
     if (!dup) {
       newRow.push({
+        storeName: inputStoreName,
         city: selectcity,
         district: selectdist,
         address: inputaddress,
@@ -128,7 +136,6 @@ const ItemUpload: React.FC = () => {
     if (loading) {
       const res = await getItem();
       if (res.length > 0) setitems(res);
-      console.log(res);
       setLoading(false);
     }
   })();
@@ -164,13 +171,16 @@ const ItemUpload: React.FC = () => {
         .map((value) => `district=${value.district}`)
         .join("&");
       const address = row.map((value) => `address=${value.address}`).join("&");
+      const storeName = row
+        .map((value) => `storeName=${value.storeName}`)
+        .join("&");
       let fromData = new FormData();
 
       fromData.append("image", selectedFile);
       fromData.append("description", editedDesc);
       await fetch(
         `${backendUrl}/UploadItem?${name}&${title}&${subtitle}
-                     &${city}&${district}&${address}`,
+         &${storeName}&${city}&${district}&${address}`,
         {
           method: "Post",
           body: fromData,
@@ -204,11 +214,14 @@ const ItemUpload: React.FC = () => {
         .join("&");
       const address = row.map((value) => `address=${value.address}`).join("&");
       let fromData = new FormData();
+      const storeName = row
+        .map((value) => `storeName=${value.storeName}`)
+        .join("&");
 
       fromData.append("description", editedDesc);
       await fetch(
         `${backendUrl}/EditItem?${name}&${title}&${subtitle}
-                     &${city}&${district}&${address}&${id}&${locid}`,
+        &${storeName}&${city}&${district}&${address}&${id}&${locid}`,
         {
           method: "Post",
           body: fromData,
@@ -348,6 +361,7 @@ const ItemUpload: React.FC = () => {
                             console.log(Item);
                             for (let i = 0; i < Item.city.length; i++) {
                               newRow.push({
+                                storeName: Item.storeName[i],
                                 city: Item.city[i],
                                 district: Item.district[i],
                                 address: Item.address[i],
@@ -391,6 +405,7 @@ const ItemUpload: React.FC = () => {
                             let newRow: rowtype[] = [];
                             for (let i = 0; i < Item.city.length; i++) {
                               newRow.push({
+                                storeName: Item.storeName[i],
                                 city: Item.city[i],
                                 district: Item.district[i],
                                 address: Item.address[i],
@@ -638,6 +653,18 @@ const ItemUpload: React.FC = () => {
               </Grid>
               <Grid item md={0.75} />
               <Grid item md={1.25} />
+              <Grid item md={2}>
+                <TextField
+                  id="storeName"
+                  label="商店名稱"
+                  multiline
+                  fullWidth
+                  defaultValue={""}
+                  onChange={(event) => {
+                    setinputStoreName(event.target.value as string);
+                  }}
+                />
+              </Grid>
               <Grid item md={1.5}>
                 <Select
                   labelId="city-select-label"
@@ -668,7 +695,7 @@ const ItemUpload: React.FC = () => {
                   ))}
                 </Select>
               </Grid>
-              <Grid item md={7}>
+              <Grid item md={5}>
                 <TextField
                   id="address"
                   label="address"
