@@ -164,15 +164,15 @@ const imgUpload: React.FC = () => {
       </Box>
       <Divider style={{ border: "1px solid gray" }} />
       <StyledDropzone>
-        <Box paddingLeft={1} paddingRight={2} height="100%" width="98%">
-          <Grid container spacing={2} height="100%" width="100%">
+        <Box paddingLeft={1} paddingRight={2} height="100%" width="95%">
+          <Grid container spacing={{ xs: 0, md: 2 }} height="100%" width="95%">
             {!loading ? (
               imgurl ? (
                 imgurl.map((url: Imageurl, index: number) => (
                   <Grid item xs={12} md={4} key={index}>
                     <Box
                       className="imgbox"
-                      marginBottom={3.5}
+                      marginBottom={{ xs: 7, md: 3.5 }}
                       sx={{
                         border: 1,
                         borderRadius: 5,
