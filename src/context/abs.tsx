@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Grid,
   Box,
@@ -23,26 +24,27 @@ import theme from "@/styles/font";
 import { City } from "../components/components-Taiwan/discCity";
 import { rowtype } from "../interface/interface";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
 
 require("dotenv").config();
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const AbsUpload: React.FC = () => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [items, setitems] = React.useState<AbsList[] | undefined>(undefined);
-  const [selectedTitle, setselectedTitle] = React.useState<string[]>([]);
-  const [selectedImgName, setselectedImgName] = React.useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [items, setitems] = useState<AbsList[] | undefined>(undefined);
+  const [selectedTitle, setselectedTitle] = useState<string[]>([]);
+  const [selectedImgName, setselectedImgName] = useState<string[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [openAdd, setopenAdd] = React.useState<boolean>(false);
-  const [openEdited, setopenEdited] = React.useState<boolean>(false);
-  const [editedTitle, seteditedTitle] = React.useState<string>("");
-  const [editedSubtitle, seteditedSubtitle] = React.useState<string>("");
-  const [editedDesc, seteditedDesc] = React.useState<string>("");
-  const [editedId, seteditedId] = React.useState<string>("");
-  const [editedurl, seteditedurl] = React.useState<string>("");
-  const [existFile, setexistFile] = React.useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [openAdd, setopenAdd] = useState<boolean>(false);
+  const [openEdited, setopenEdited] = useState<boolean>(false);
+  const [editedTitle, seteditedTitle] = useState<string>("");
+  const [editedSubtitle, seteditedSubtitle] = useState<string>("");
+  const [editedDesc, seteditedDesc] = useState<string>("");
+  const [editedId, seteditedId] = useState<string>("");
+  const [editedurl, seteditedurl] = useState<string>("");
+  const [existFile, setexistFile] = useState<string>("");
 
   (async () => {
     if (loading) {
@@ -246,8 +248,9 @@ const AbsUpload: React.FC = () => {
                             setopenEdited(true);
                           }}
                         >
-                          <img
+                          <Image
                             title={Item.pictureUrl.split("/").slice(-1)[0]}
+                            alt={Item.pictureUrl.split("/").slice(-1)[0]}
                             src={Item.pictureUrl}
                             style={{
                               height: "95%",

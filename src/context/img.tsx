@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Grid,
   Box,
@@ -19,7 +20,7 @@ const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const FileUpload: React.FC = () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const [selectedFile, setSelectedFile] = React.useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const fileInputRef = React.useRef<any>(null);
 
   const handleFileChange = (event: any) => {
@@ -80,11 +81,11 @@ const FileUpload: React.FC = () => {
   );
 };
 
-const imgUpload: React.FC = () => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [imgurl, setimgurl] = React.useState<Imageurl[] | undefined>(undefined);
-  const [selected, setselected] = React.useState<string[]>([]);
-  const [openAdd, setopenAdd] = React.useState<boolean>(false);
+const ImgUpload: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [imgurl, setimgurl] = useState<Imageurl[] | undefined>(undefined);
+  const [selected, setselected] = useState<string[]>([]);
+  const [openAdd, setopenAdd] = useState<boolean>(false);
 
   (async () => {
     if (loading) {
@@ -250,4 +251,4 @@ const imgUpload: React.FC = () => {
   );
 };
 
-export default imgUpload;
+export default ImgUpload;

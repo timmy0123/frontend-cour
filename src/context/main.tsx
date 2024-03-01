@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { Grid, Box, Stack, Button, Modal, IconButton } from "@mui/material";
 import { Typography, ThemeProvider } from "@material-ui/core";
 import { signOut } from "next-auth/react";
@@ -16,11 +17,11 @@ interface mainType {
   session: Session;
 }
 export const MainContent: React.FC<mainType> = ({ session }) => {
-  const [showTool, setshowTool] = React.useState<boolean>(false);
-  const [itemSelect, setitemSelect] = React.useState<boolean>(false);
-  const [imgSelect, setimgSelect] = React.useState<boolean>(true);
-  const [absSelect, setabsSelect] = React.useState<boolean>(false);
-  const [passwordSelect, setpasswordSelect] = React.useState<boolean>(false);
+  const [showTool, setshowTool] = useState<boolean>(false);
+  const [itemSelect, setitemSelect] = useState<boolean>(false);
+  const [imgSelect, setimgSelect] = useState<boolean>(true);
+  const [absSelect, setabsSelect] = useState<boolean>(false);
+  const [passwordSelect, setpasswordSelect] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>

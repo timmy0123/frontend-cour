@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Grid,
   Box,
@@ -16,9 +17,9 @@ require("dotenv").config();
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const Check: React.FC<Checktype> = ({ onSuccess }) => {
-  const [user, setuser] = React.useState<string>("");
-  const [password, setpassword] = React.useState<string>("");
-  const [alert, setalert] = React.useState<boolean>(false);
+  const [user, setuser] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
+  const [alert, setalert] = useState<boolean>(false);
 
   async function handleSubmit() {
     const res = await fetch(
@@ -94,10 +95,10 @@ const Check: React.FC<Checktype> = ({ onSuccess }) => {
 };
 
 const Change: React.FC<Resettype> = ({ onSuccess }) => {
-  const [newuser, setnewuser] = React.useState<string>("");
-  const [newpassword, setnewpassword] = React.useState<string>("");
-  const [newpasswordCheck, setnewpasswordCheck] = React.useState<string>("");
-  const [alert, setalert] = React.useState<boolean>(false);
+  const [newuser, setnewuser] = useState<string>("");
+  const [newpassword, setnewpassword] = useState<string>("");
+  const [newpasswordCheck, setnewpasswordCheck] = useState<string>("");
+  const [alert, setalert] = useState<boolean>(false);
 
   async function handleSubmit() {
     if (newpassword == newpasswordCheck) {
@@ -190,7 +191,7 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
 };
 
 const PasswordSetting: React.FC = () => {
-  const [pass, setPass] = React.useState<boolean>(false);
+  const [pass, setPass] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>

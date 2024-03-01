@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Grid,
   Box,
@@ -34,31 +35,31 @@ const label = { inputProps: { "aria-label": "Checkbox demo" } };
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const ItemUpload: React.FC = () => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [items, setitems] = React.useState<ItemList[] | undefined>(undefined);
-  const [selectedItemName, setselectedItemName] = React.useState<string[]>([]);
-  const [selectedImgName, setselectedImgName] = React.useState<string[]>([]);
-  const [openAdd, setopenAdd] = React.useState<boolean>(false);
-  const [openEdited, setopenEdited] = React.useState<boolean>(false);
-  const [editedTitle, seteditedTitle] = React.useState<string>("");
-  const [itemName, setitemName] = React.useState<string>("");
-  const [editedSubtitle, seteditedSubtitle] = React.useState<string>("");
-  const [editedDesc, seteditedDesc] = React.useState<string>("");
-  const [editedId, seteditedId] = React.useState<string>("");
-  const [editedlocId, seteditedlocId] = React.useState<string[]>([]);
-  const [editedurl, seteditedurl] = React.useState<string>("");
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [existFile, setexistFile] = React.useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [items, setitems] = useState<ItemList[] | undefined>(undefined);
+  const [selectedItemName, setselectedItemName] = useState<string[]>([]);
+  const [selectedImgName, setselectedImgName] = useState<string[]>([]);
+  const [openAdd, setopenAdd] = useState<boolean>(false);
+  const [openEdited, setopenEdited] = useState<boolean>(false);
+  const [editedTitle, seteditedTitle] = useState<string>("");
+  const [itemName, setitemName] = useState<string>("");
+  const [editedSubtitle, seteditedSubtitle] = useState<string>("");
+  const [editedDesc, seteditedDesc] = useState<string>("");
+  const [editedId, seteditedId] = useState<string>("");
+  const [editedlocId, seteditedlocId] = useState<string[]>([]);
+  const [editedurl, seteditedurl] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [existFile, setexistFile] = useState<string>("");
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-  const [selectcity, setselectcity] = React.useState<string>("臺北市");
-  const [selectdist, setselectdist] = React.useState<string>("中正區");
-  const [inputStoreName, setinputStoreName] = React.useState<string>("");
-  const [inputaddress, setinputaddress] = React.useState<string>("");
-  const [selectLoc, setselectLoc] = React.useState<string[]>([]);
-  const [dupaddr, setdupaddr] = React.useState<boolean>(false);
+  const [selectcity, setselectcity] = useState<string>("臺北市");
+  const [selectdist, setselectdist] = useState<string>("中正區");
+  const [inputStoreName, setinputStoreName] = useState<string>("");
+  const [inputaddress, setinputaddress] = useState<string>("");
+  const [selectLoc, setselectLoc] = useState<string[]>([]);
+  const [dupaddr, setdupaddr] = useState<boolean>(false);
   const cities = Object.keys(City);
-  const [row, setrow] = React.useState<rowtype[]>([]);
-  const [rowName, setrowName] = React.useState<string[]>([]);
+  const [row, setrow] = useState<rowtype[]>([]);
+  const [rowName, setrowName] = useState<string[]>([]);
   const columns: GridColDef[] = [
     {
       field: "storeName",
