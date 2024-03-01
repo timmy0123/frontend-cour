@@ -12,6 +12,7 @@ import {
   SelectChangeEvent,
   MenuItem,
   Alert,
+  IconButton,
 } from "@mui/material";
 import {
   DataGrid,
@@ -26,6 +27,7 @@ import { getItem } from "../components/components-query/QueryComponent";
 import theme from "@/styles/font";
 import { City } from "../components/components-Taiwan/discCity";
 import { rowtype } from "../interface/interface";
+import CloseIcon from "@mui/icons-material/Close";
 
 require("dotenv").config();
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -286,11 +288,10 @@ const ItemUpload: React.FC = () => {
         <Divider style={{ border: "1px solid gray" }} />
         <Box
           paddingLeft={1}
-          paddingRight={10}
           paddingBottom={7}
           sx={{
             overflowY: "scroll",
-            width: "100%",
+            width: "97%",
             height: "95%",
           }}
         >
@@ -298,7 +299,7 @@ const ItemUpload: React.FC = () => {
             {!loading ? (
               items ? (
                 items.map((Item: ItemList, index: number) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid item xs={12} key={index} paddingRight={1}>
                     <Box
                       className="itembox"
                       sx={{
@@ -312,7 +313,9 @@ const ItemUpload: React.FC = () => {
                       <Grid container paddingLeft={0.5}>
                         <Grid
                           item
-                          md={0.4}
+                          xs={1.2}
+                          md={0.6}
+                          lg={0.4}
                           sx={{ display: "flex", alignItems: "center" }}
                         >
                           <Checkbox
@@ -339,10 +342,10 @@ const ItemUpload: React.FC = () => {
                         </Grid>
                         <Grid
                           item
-                          md={3}
+                          md={3.2}
                           sx={{
                             cursor: "pointer",
-                            display: "flex",
+                            display: { xs: "none", md: "flex" },
                             alignItems: "center",
                           }}
                           onClick={() => {
@@ -383,7 +386,9 @@ const ItemUpload: React.FC = () => {
                         </Grid>
                         <Grid
                           item
-                          md={8.5}
+                          xs={10.3}
+                          md={8}
+                          lg={8}
                           paddingTop={1}
                           sx={{
                             cursor: "pointer",
@@ -493,7 +498,7 @@ const ItemUpload: React.FC = () => {
             }}
           >
             <Grid container spacing={1}>
-              <Grid item md={10.25} />
+              <Grid item xs={7} sm={8} md={9.25} />
               <Grid item md={1} marginRight={3} marginTop={1}>
                 <Box
                   width="100%"
@@ -507,12 +512,28 @@ const ItemUpload: React.FC = () => {
               </Grid>
               <Grid
                 item
+                xs={1}
+                lg={0.5}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <IconButton
+                  onClick={() => {
+                    setopenAdd(false);
+                    setopenEdited(false);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
+              <Grid
+                item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">商品名稱</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11} sm={11.5} md={10}>
                 <TextField
                   required
                   id="outlined-required"
@@ -524,15 +545,17 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
+              <Grid item xs={12} md={0.75} />
               <Grid
                 item
+                xs={11}
+                sm={11.5}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">標題</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11} sm={11.5} md={10}>
                 <TextField
                   required
                   id="outlined-required"
@@ -543,15 +566,16 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
+              <Grid item xs={12} md={0.75} />
               <Grid
                 item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">副標題</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11} sm={11.5} md={10}>
                 <TextField
                   required
                   id="outlined-required"
@@ -562,15 +586,16 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
+              <Grid item xs={12} md={0.75} />
               <Grid
                 item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "flex-start" }}
               >
                 <Typography variant="h4">介紹</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11} sm={11.5} md={10}>
                 <TextField
                   id="outlined-multiline-flexible"
                   label=""
@@ -583,18 +608,19 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
-              <Grid item md={12} marginY={3} marginRight={3}>
+              <Grid item xs={12} md={0.75} />
+              <Grid item xs={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
               <Grid
                 item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">圖片</Typography>
               </Grid>
-              <Grid item md={8.5}>
+              <Grid item xs={8.5} md={8.5}>
                 <TextField
                   required
                   id="outlined-required"
@@ -603,7 +629,7 @@ const ItemUpload: React.FC = () => {
                   value={selectedFile ? selectedFile.name : ""}
                 />
               </Grid>
-              <Grid item md={1.5}>
+              <Grid item xs={3} md={1.5}>
                 <Box
                   width="100%"
                   height="100%"
@@ -626,13 +652,13 @@ const ItemUpload: React.FC = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item md={12} marginY={3} marginRight={3}>
+              <Grid item xs={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
-              <Grid item md={1.25}>
+              <Grid item xs={12} md={1.25}>
                 <Typography variant="h4">販售地點</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={12} md={10}>
                 <Box className="location">
                   <DataGrid
                     rows={row}
@@ -651,9 +677,17 @@ const ItemUpload: React.FC = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item md={0.75} />
-              <Grid item md={1.25} />
-              <Grid item md={2}>
+              <Grid
+                item
+                md={0.75}
+                sx={{ display: { xs: "none", md: "block" } }}
+              />
+              <Grid
+                item
+                md={1.25}
+                sx={{ display: { xs: "none", md: "block" } }}
+              />
+              <Grid item xs={4} md={2}>
                 <TextField
                   id="storeName"
                   label="商店名稱"
@@ -665,7 +699,7 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={1.5}>
+              <Grid item xs={3} md={1.5}>
                 <Select
                   labelId="city-select-label"
                   id="city-select"
@@ -680,7 +714,7 @@ const ItemUpload: React.FC = () => {
                   ))}
                 </Select>
               </Grid>
-              <Grid item md={1.5}>
+              <Grid item xs={3} md={1.5}>
                 <Select
                   labelId="dist-select-label"
                   id="dist-select"
@@ -695,7 +729,7 @@ const ItemUpload: React.FC = () => {
                   ))}
                 </Select>
               </Grid>
-              <Grid item md={5}>
+              <Grid item xs={11} sm={11.5} md={5}>
                 <TextField
                   id="address"
                   label="address"
@@ -707,8 +741,12 @@ const ItemUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={9.75} />
-              <Grid item md={0.75}>
+              <Grid
+                item
+                md={9.75}
+                sx={{ display: { xs: "none", md: "block" } }}
+              />
+              <Grid item xs={8} sm={10} md={0.75}>
                 <Box
                   width="100%"
                   height="100%"
@@ -719,7 +757,7 @@ const ItemUpload: React.FC = () => {
                   </Button>
                 </Box>
               </Grid>
-              <Grid item md={0.75}>
+              <Grid item xs={2.5} sm={2} md={0.75}>
                 <Box
                   width="100%"
                   height="100%"

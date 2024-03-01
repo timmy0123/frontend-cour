@@ -7,6 +7,7 @@ import {
   Checkbox,
   Modal,
   TextField,
+  IconButton,
 } from "@mui/material";
 import {
   DataGrid,
@@ -21,6 +22,7 @@ import { getAbs, getItem } from "../components/components-query/QueryComponent";
 import theme from "@/styles/font";
 import { City } from "../components/components-Taiwan/discCity";
 import { rowtype } from "../interface/interface";
+import CloseIcon from "@mui/icons-material/Close";
 
 require("dotenv").config();
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -175,7 +177,7 @@ const AbsUpload: React.FC = () => {
           paddingBottom={7}
           sx={{
             overflowY: "scroll",
-            width: "100%",
+            width: "96%",
             height: "95%",
           }}
         >
@@ -197,7 +199,9 @@ const AbsUpload: React.FC = () => {
                       <Grid container paddingLeft={0.5}>
                         <Grid
                           item
-                          md={0.4}
+                          xs={1.2}
+                          md={0.6}
+                          lg={0.4}
                           sx={{ display: "flex", alignItems: "center" }}
                         >
                           <Checkbox
@@ -226,7 +230,7 @@ const AbsUpload: React.FC = () => {
                           md={3}
                           sx={{
                             cursor: "pointer",
-                            display: "flex",
+                            display: { xs: "none", md: "flex" },
                             alignItems: "center",
                           }}
                           onClick={() => {
@@ -254,7 +258,9 @@ const AbsUpload: React.FC = () => {
                         </Grid>
                         <Grid
                           item
-                          md={8.5}
+                          xs={10.3}
+                          md={8}
+                          lg={8}
                           paddingTop={1}
                           sx={{
                             cursor: "pointer",
@@ -334,8 +340,8 @@ const AbsUpload: React.FC = () => {
             }}
           >
             <Grid container spacing={1}>
-              <Grid item md={10.25} />
-              <Grid item md={1} marginRight={3} marginTop={1}>
+              <Grid item xs={8.25} sm={9.25} lg={9.75} />
+              <Grid item xs={1} marginRight={3} marginTop={1}>
                 <Box
                   width="100%"
                   height="100%"
@@ -348,12 +354,28 @@ const AbsUpload: React.FC = () => {
               </Grid>
               <Grid
                 item
+                xs={1}
+                lg={0.5}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <IconButton
+                  onClick={() => {
+                    setopenAdd(false);
+                    setopenEdited(false);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
+              <Grid
+                item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">標題</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11.4} md={10}>
                 <TextField
                   required
                   id="outlined-required"
@@ -364,15 +386,16 @@ const AbsUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
+              <Grid item xs={12} md={0.75} />
               <Grid
                 item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">副標題</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11.4} md={10}>
                 <TextField
                   required
                   id="outlined-required"
@@ -383,7 +406,7 @@ const AbsUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
+              <Grid item xs={12} md={0.75} />
               <Grid
                 item
                 md={1.25}
@@ -391,7 +414,7 @@ const AbsUpload: React.FC = () => {
               >
                 <Typography variant="h4">介紹</Typography>
               </Grid>
-              <Grid item md={10}>
+              <Grid item xs={11.4} md={10}>
                 <TextField
                   id="outlined-multiline-flexible"
                   label=""
@@ -404,18 +427,19 @@ const AbsUpload: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid item md={0.75} />
-              <Grid item md={12} marginY={3} marginRight={3}>
+              <Grid item xs={12} md={0.75} />
+              <Grid item xs={12} md={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
               <Grid
                 item
+                xs={12}
                 md={1.25}
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Typography variant="h4">圖片</Typography>
               </Grid>
-              <Grid item md={8.5}>
+              <Grid item xs={8.5} md={7.5} lg={7.5}>
                 <TextField
                   required
                   id="outlined-required"
@@ -424,7 +448,7 @@ const AbsUpload: React.FC = () => {
                   value={selectedFile ? selectedFile.name : ""}
                 />
               </Grid>
-              <Grid item md={1.5}>
+              <Grid item xs={3} md={2.5} letterSpacing={1}>
                 <Box
                   width="100%"
                   height="100%"
@@ -447,7 +471,7 @@ const AbsUpload: React.FC = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item md={12} marginY={3} marginRight={3}>
+              <Grid item xs={12} marginY={3} marginRight={3}>
                 <Divider style={{ border: "1px solid gray" }} />
               </Grid>
             </Grid>

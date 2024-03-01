@@ -45,6 +45,11 @@
   padding-left: 0;
 }
 
+.slidebar-phone {
+  position: fixed;
+  z-index: 1000;
+}
+
 .main {
   position: fixed;
   top: 0;
@@ -65,4 +70,50 @@
 .itembox {
   width: 100%;
   height: 250px;
+}
+
+.menu {
+  position: fixed;
+  background-color: rgba(30, 29, 29, 0.85);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (max-width: 900px) {
+  .slidebar {
+    display: none;
+  }
+
+  .addItem {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .location {
+    width: 95%;
+  }
+
+  .itembox {
+    width: 100%;
+    height: 350px;
+  }
+
+  .password {
+    width: 60%;
+  }
+}
+
+@media (max-width: 500px) {
+  .location {
+    width: 90%;
+  }
+}
+
+@media (min-width: 900px) {
+  .slidebar-phone {
+    display: none;
+  }
 }

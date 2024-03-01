@@ -56,10 +56,10 @@ const Check: React.FC<Checktype> = ({ onSuccess }) => {
         height="100%"
         sx={{ display: "flex", alignItems: "center" }}
       >
-        <Grid item md={2.5}>
+        <Grid item xs={12} md={2.5}>
           <Typography variant="h6">舊使用者</Typography>
         </Grid>
-        <Grid item md={9.3}>
+        <Grid item xs={11.5} md={9.3}>
           <TextField
             id="old-user"
             label="old user"
@@ -70,10 +70,10 @@ const Check: React.FC<Checktype> = ({ onSuccess }) => {
             }}
           />
         </Grid>
-        <Grid item md={2.5}>
+        <Grid item xs={12} md={2.5}>
           <Typography variant="h6">舊密碼</Typography>
         </Grid>
-        <Grid item md={9.3}>
+        <Grid item xs={11.5} md={9.3}>
           <TextField
             id="old-password"
             label="old password"
@@ -85,7 +85,7 @@ const Check: React.FC<Checktype> = ({ onSuccess }) => {
             }}
           />
         </Grid>
-        <Grid item md={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={handleSubmit}>確認</Button>
         </Grid>
       </Grid>
@@ -137,10 +137,10 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
         height="100%"
         sx={{ display: "flex", alignItems: "center" }}
       >
-        <Grid item md={2.5}>
+        <Grid item xs={12} md={2.5}>
           <Typography variant="h6">新使用者</Typography>
         </Grid>
-        <Grid item md={9.3}>
+        <Grid item xs={11.5} md={9.3}>
           <TextField
             id="new-user"
             label="new user"
@@ -151,10 +151,10 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
             }}
           />
         </Grid>
-        <Grid item md={2.5}>
+        <Grid item xs={12} md={2.5}>
           <Typography variant="h6">新密碼</Typography>
         </Grid>
-        <Grid item md={9.3}>
+        <Grid item xs={11.5} md={9.3}>
           <TextField
             id="new-password"
             label="new password"
@@ -166,10 +166,10 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
             }}
           />
         </Grid>
-        <Grid item md={2.5}>
+        <Grid item xs={12} md={2.5}>
           <Typography variant="h6">確認密碼</Typography>
         </Grid>
-        <Grid item md={9.3}>
+        <Grid item xs={11.5} md={9.3}>
           <TextField
             id="conform-password"
             label="conform password"
@@ -181,7 +181,7 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
             }}
           />
         </Grid>
-        <Grid item md={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={handleSubmit}>確認</Button>
         </Grid>
       </Grid>

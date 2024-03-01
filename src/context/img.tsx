@@ -1,5 +1,13 @@
 import * as React from "react";
-import { Grid, Box, Stack, Button, Checkbox, Modal } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Stack,
+  Button,
+  Checkbox,
+  Modal,
+  Tooltip,
+} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { getImg } from "../components/components-query/QueryComponent";
 import { Imageurl } from "../interface/interface";
@@ -156,7 +164,7 @@ const imgUpload: React.FC = () => {
       </Box>
       <Divider style={{ border: "1px solid gray" }} />
       <StyledDropzone>
-        <Box paddingLeft={1} paddingRight={2} height="100%" width="100%">
+        <Box paddingLeft={1} paddingRight={2} height="100%" width="98%">
           <Grid container spacing={2} height="100%" width="100%">
             {!loading ? (
               imgurl ? (
@@ -176,7 +184,7 @@ const imgUpload: React.FC = () => {
                           container
                           sx={{ display: "flex", alignItems: "center" }}
                         >
-                          <Grid item md={1}>
+                          <Grid item md={2} lg={1}>
                             <Checkbox
                               id={`${index}`}
                               {...label}
@@ -199,7 +207,17 @@ const imgUpload: React.FC = () => {
                                 justifyContent: "flex-start",
                               }}
                             >
-                              <a>{url.url.split("/").slice(-1)[0]}</a>
+                              <Tooltip title={url.url.split("/").slice(-1)[0]}>
+                                <a
+                                  style={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {url.url.split("/").slice(-1)[0]}
+                                </a>
+                              </Tooltip>
                             </Box>
                           </Grid>
                         </Grid>
