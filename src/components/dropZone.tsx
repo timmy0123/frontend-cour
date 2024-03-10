@@ -63,7 +63,7 @@ export const StyledDropzone: React.FC<dropzoneType> = ({ children }) => {
           const formData = new FormData();
           formData.append("image", file);
           try {
-            const response = await fetch(`${backendUrl}/UploadImg`, {
+            const response = await fetch(`${backendUrl}/Image/uploadImage`, {
               method: "POST",
               body: formData,
             });

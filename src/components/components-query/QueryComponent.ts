@@ -5,7 +5,7 @@ require("dotenv").config();
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 export async function getImg(): Promise<Imageurl[]> {
   try {
-    const response = await fetch(`${backendUrl}/ListImg`, {
+    const response = await fetch(`${backendUrl}/Image/listImage`, {
       method: "GET",
     });
 
@@ -16,7 +16,7 @@ export async function getImg(): Promise<Imageurl[]> {
 
     const data = await response.json();
     // Assuming the response data is an array of Imageurl objects
-    return data as Imageurl[];
+    return data["message"] as Imageurl[];
   } catch (error) {
     // Handle fetch errors or JSON parsing errors
     console.error("Error fetching image URLs:", error);
@@ -49,18 +49,18 @@ export async function getItem(): Promise<ItemList[]> {
 
 export async function getAbs(): Promise<AbsList[]> {
   try {
-    const response = await fetch(`${backendUrl}/ListAbs`, {
+    const response = await fetch(`${backendUrl}/Abs/listAbs`, {
       method: "GET",
     });
 
     if (!response.ok) {
       // Handle non-successful responses
-      throw new Error(`Failed to fetch image URLs: ${response.statusText}`);
+      throw new Error(`Failed to fetch Abs URLs: ${response.statusText}`);
     }
 
     const data = await response.json();
     // Assuming the response data is an array of Imageurl objects
-    return data as AbsList[];
+    return data["message"] as AbsList[];
   } catch (error) {
     // Handle fetch errors or JSON parsing errors
     console.error("Error fetching image URLs:", error);

@@ -252,10 +252,11 @@ const AbsUpload: React.FC = () => {
                             title={Item.pictureUrl.split("/").slice(-1)[0]}
                             alt={Item.pictureUrl.split("/").slice(-1)[0]}
                             src={Item.pictureUrl}
+                            width={100}
                             style={{
                               height: "95%",
                               width: "95%",
-                              maxHeight: "240px",
+                              //maxHeight: "240px",
                             }}
                           />
                         </Grid>

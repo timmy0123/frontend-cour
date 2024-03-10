@@ -43,7 +43,7 @@ const FileUpload: React.FC = () => {
     const formData = new FormData();
     formData.append("image", selectedFile);
     try {
-      const response = await fetch(`${backendUrl}/UploadImg`, {
+      const response = await fetch(`${backendUrl}/Image/UploadImg`, {
         method: "POST",
         body: formData,
       });
@@ -101,8 +101,8 @@ const ImgUpload: React.FC = () => {
       selectName += `imgs=${value}&`;
     });
     selectName = selectName.substring(0, selectName.length - 1);
-    await fetch(`${backendUrl}/SelectImg?${selectName}`, {
-      method: "POST",
+    await fetch(`${backendUrl}/Image/selectImage?${selectName}`, {
+      method: "PUT",
     });
     setselected([]);
     setimgurl([]);
@@ -112,7 +112,7 @@ const ImgUpload: React.FC = () => {
   async function handleDeleteImg() {
     for (let i = 0; i < selected.length; i++) {
       let name = `filename=${selected[i]}`;
-      await fetch(`${backendUrl}/DeleteImg?${name}`, {
+      await fetch(`${backendUrl}/Image/deleteImage?${name}`, {
         method: "Delete",
       });
     }

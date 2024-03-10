@@ -23,7 +23,7 @@ const Check: React.FC<Checktype> = ({ onSuccess }) => {
 
   async function handleSubmit() {
     const res = await fetch(
-      `${backendUrl}/GetUser?username=${user}&password=${password}`,
+      `${backendUrl}/User/GetUser?username=${user}&password=${password}`,
       {
         method: "GET",
       }
@@ -103,9 +103,9 @@ const Change: React.FC<Resettype> = ({ onSuccess }) => {
   async function handleSubmit() {
     if (newpassword == newpasswordCheck) {
       const res = await fetch(
-        `${backendUrl}/EditUser?username=${newuser}&password=${newpassword}`,
+        `${backendUrl}/User/UpdateUser?username=${newuser}&password=${newpassword}`,
         {
-          method: "POST",
+          method: "PUT",
         }
       );
       const _user = await res.json();

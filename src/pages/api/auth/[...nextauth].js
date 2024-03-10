@@ -20,7 +20,7 @@ export default NextAuth({
       },
       async authorize(credentials, req) {
         const res = await fetch(
-          `${backendUrl}/GetUser?username=${credentials.username}&password=${credentials.password}`,
+          `${backendUrl}/User/GetUser?username=${credentials.username}&password=${credentials.password}`,
           {
             credentials: "include",
             method: "GET",
