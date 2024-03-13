@@ -147,7 +147,7 @@ const ItemUpload: React.FC = () => {
     for (let i = 0; i < selectedItemName.length; i++) {
       let Imgname = `fileName=${selectedImgName[i]}`;
       let ItemName = `itemName=${selectedItemName[i]}`;
-      await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
+      await fetch(`${backendUrl}/Item/deleteItem?${Imgname}&${ItemName}`, {
         method: "Delete",
       });
     }
@@ -162,7 +162,7 @@ const ItemUpload: React.FC = () => {
       if (openEdited) {
         let Imgname = `fileName=${existFile}`;
         let ItemName = `itemName=${itemName}`;
-        await fetch(`${backendUrl}/DeleteItem?${Imgname}&${ItemName}`, {
+        await fetch(`${backendUrl}/Item/deleteItem?${Imgname}&${ItemName}`, {
           method: "Delete",
         });
       }
@@ -182,7 +182,7 @@ const ItemUpload: React.FC = () => {
       fromData.append("image", selectedFile);
       fromData.append("description", editedDesc);
       await fetch(
-        `${backendUrl}/UploadItem?${name}&${title}&${subtitle}
+        `${backendUrl}/Item/uploadItem?${name}&${title}&${subtitle}
          &${storeName}&${city}&${district}&${address}`,
         {
           method: "Post",
@@ -223,10 +223,10 @@ const ItemUpload: React.FC = () => {
 
       fromData.append("description", editedDesc);
       await fetch(
-        `${backendUrl}/EditItem?${name}&${title}&${subtitle}
+        `${backendUrl}/Item/updateItem?${name}&${title}&${subtitle}
         &${storeName}&${city}&${district}&${address}&${id}&${locid}`,
         {
-          method: "Post",
+          method: "Put",
           body: fromData,
         }
       );

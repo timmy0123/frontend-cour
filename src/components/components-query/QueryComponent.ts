@@ -27,7 +27,7 @@ export async function getImg(): Promise<Imageurl[]> {
 
 export async function getItem(): Promise<ItemList[]> {
   try {
-    const response = await fetch(`${backendUrl}/ListItem`, {
+    const response = await fetch(`${backendUrl}/Item/listitem`, {
       method: "GET",
     });
 
@@ -38,7 +38,7 @@ export async function getItem(): Promise<ItemList[]> {
 
     const data = await response.json();
     // Assuming the response data is an array of Imageurl objects
-    return data as ItemList[];
+    return data["message"] as ItemList[];
   } catch (error) {
     // Handle fetch errors or JSON parsing errors
     console.error("Error fetching image URLs:", error);

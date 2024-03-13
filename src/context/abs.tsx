@@ -58,7 +58,7 @@ const AbsUpload: React.FC = () => {
     for (let i = 0; i < selectedTitle.length; i++) {
       let Imgname = `fileName=${selectedImgName[i]}`;
       let title = `title=${selectedTitle[i]}`;
-      await fetch(`${backendUrl}/DeleteAbs?${Imgname}&${title}`, {
+      await fetch(`${backendUrl}/Abs/deleteAbs?${Imgname}&${title}`, {
         method: "Delete",
       });
     }
@@ -76,8 +76,8 @@ const AbsUpload: React.FC = () => {
       let fromData = new FormData();
 
       fromData.append("description", editedDesc);
-      await fetch(`${backendUrl}/EditAbs?${id}&${title}&${subtitle}`, {
-        method: "Post",
+      await fetch(`${backendUrl}/Abs/updateAbs?${id}&${title}&${subtitle}`, {
+        method: "Put",
         body: fromData,
       });
       seteditedDesc("");
@@ -96,7 +96,7 @@ const AbsUpload: React.FC = () => {
       if (openEdited) {
         let Imgname = `fileName=${existFile}`;
         let title = `title=${editedTitle}`;
-        await fetch(`${backendUrl}/DeleteAbs?${Imgname}&${title}`, {
+        await fetch(`${backendUrl}/Abs/deleteAbs?${Imgname}&${title}`, {
           method: "Delete",
         });
       }
@@ -107,7 +107,7 @@ const AbsUpload: React.FC = () => {
 
       fromData.append("image", selectedFile!);
       fromData.append("description", editedDesc);
-      await fetch(`${backendUrl}/UploadAbs?&${title}&${subtitle}`, {
+      await fetch(`${backendUrl}/Abs/uploadAbs?&${title}&${subtitle}`, {
         method: "Post",
         body: fromData,
       });
@@ -248,15 +248,13 @@ const AbsUpload: React.FC = () => {
                             setopenEdited(true);
                           }}
                         >
-                          <Image
-                            title={Item.pictureUrl.split("/").slice(-1)[0]}
+                          <img
                             alt={Item.pictureUrl.split("/").slice(-1)[0]}
                             src={Item.pictureUrl}
-                            width={100}
                             style={{
-                              height: "95%",
+                              height: "90%",
                               width: "95%",
-                              //maxHeight: "240px",
+                              maxHeight: "240px",
                             }}
                           />
                         </Grid>
