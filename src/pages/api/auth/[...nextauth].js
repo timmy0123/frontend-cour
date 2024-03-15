@@ -39,6 +39,8 @@ export default NextAuth({
   callbacks: {
     async redirect({ url, baseUrl }) {
       console.log(url, baseUrl);
+      url = "http://34.173.138.58:3000";
+      baseUrl = "http://34.173.138.58:3000";
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
