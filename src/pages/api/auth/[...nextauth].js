@@ -36,6 +36,11 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async redirect(url, baseUrl) {
+      return url.startsWith("http://34.173.138.58:3000/");
+    },
+  },
   session: {
     strategy: "jwt", // 使用 JSON Web Token（JWT）於 session
     maxAge: 30 * 24 * 60 * 60, // session 的最大有效期（以秒為單位）
